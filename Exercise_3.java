@@ -60,10 +60,8 @@ public class Exercise_3 {
                 return vertexValue;
             } else {                	                   // superstep > 0
             	if(vertexValue.getDist()<message.getDist()) {
-            		System.out.println("Igual"+vertexValue.getName() +"-"+ vertexValue.getPath() +"-"+ vertexValue.getDist());
             		return vertexValue;
             	} else {
-            		System.out.println("Cambia"+message.getName() +"-"+ message.getPath() +"-"+ message.getDist());
             		return message;
             	}
             }
