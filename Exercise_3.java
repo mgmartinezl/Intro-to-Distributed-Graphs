@@ -75,17 +75,19 @@ public class Exercise_3 {
         public Iterator<Tuple2<Object, Data>> apply(EdgeTriplet<Data, Integer> triplet) {
         	Tuple2<Object,Data> sourceVertex = triplet.toTuple()._1();
             Tuple2<Object,Data> dstVertex = triplet.toTuple()._2();
+            int dist = triplet.toTuple()._3();
             
-            if(sourceVertex._2.getDist() != Integer.MAX_VALUE && sourceVertex._2.getDist() + triplet.toTuple()._3()< dstVertex._2.getDist()){
-	            Data updatedData = new Data(dstVertex._2.getName(),sourceVertex._2.getPath()+","+dstVertex._2.getName(), sourceVertex._2.getDist()+triplet.toTuple()._3());
+            if(sourceVertex._2.getDist() == Integer.MAX_VALUE)
+            	return JavaConverters.asScalaIteratorConverter(Arrays.asList(new Tuple2<Object,Data>(triplet.dstId(),sourceVertex._2)).iterator()).asScala();
+            		
+            if(sourceVertex._2.getDist() + dist < dstVertex._2.getDist()){
+	            Data updatedData = new Data(dstVertex._2.getName(),sourceVertex._2.getPath()+","+dstVertex._2.getName(), sourceVertex._2.getDist()+dist);
 	            ArrayList<Tuple2<Object,Data>> myarray = new ArrayList();
 	            myarray.add(new Tuple2<Object,Data>(triplet.dstId(),updatedData));
-	            	
 	        	return JavaConverters.asScalaIteratorConverter(myarray.iterator()).asScala();
-            } else {
-            	//do nothing
-            	return JavaConverters.asScalaIteratorConverter(Arrays.asList(new Tuple2<Object,Data>(triplet.dstId(),sourceVertex._2)).iterator()).asScala();
             }
+            
+            return JavaConverters.asScalaIteratorConverter(new ArrayList<Tuple2<Object,Data>>().iterator()).asScala();	
         }
     }
 
